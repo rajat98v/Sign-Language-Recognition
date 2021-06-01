@@ -9,60 +9,60 @@ from keras_preprocessing import image
 from keras_preprocessing.image import ImageDataGenerator
 
 
-TRAINING_DIR = "/home/rajatv/Downloads/Machine/archives/Train/"
-image_generator = ImageDataGenerator(rescale = 1./255, validation_split=0.2)
-
-train_generator = image_generator.flow_from_directory(
-        TRAINING_DIR,
-        target_size=(100,100),
-        class_mode='categorical',
-        batch_size=32
-)
-label_map = (train_generator.class_indices)
-
-validation_generator = image_generator.flow_from_directory(
-        TRAINING_DIR,
-        target_size=(100,100),
-        class_mode='categorical',
-  batch_size=32
-)
-def md():
-    import tensorflow as tf
-
-    model = tf.keras.models.Sequential([
-        # Note the input shape is the desired size of the image 150x150 with 3 bytes color
-        tf.keras.layers.Conv2D(64, (3,3), activation='relu', input_shape=(100, 100, 3)),
-        tf.keras.layers.MaxPooling2D(2,2),
-        tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
-        tf.keras.layers.MaxPooling2D(2,2), 
-        # tf.keras.layers.Conv2D(128, (3,3), activation='relu'), 
-        # tf.keras.layers.MaxPooling2D(2,2),
-        # tf.keras.layers.Conv2D(128, (3,3), activation='relu'), 
-        # tf.keras.layers.MaxPooling2D(2,2),
-        # Flatten the results to feed into a DNN
-        tf.keras.layers.Flatten(), 
-        # 512 neuron hidden layer
-        tf.keras.layers.Dense(514, activation='relu'), 
-        tf.keras.layers.Dense(214, activation='relu'), 
-        # Only 1 output neuron. It will contain a value from 0-1 where 0 for 1 class ('cats') and 1 for the other ('dogs')
-        tf.keras.layers.Dense(29, activation='softmax')  
-    ])
-
-    model.summary()
-
-
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-
-    history = model.fit(train_generator,
-                                  validation_data=validation_generator,
-                                  steps_per_epoch=1700,
-                                  epochs=5,
-                              validation_steps=50,
-                              verbose=1)
-
-    model.save("mymodel2")
-
-md()
+# TRAINING_DIR = "/home/rajatv/Downloads/Machine/archives/Train/"
+# image_generator = ImageDataGenerator(rescale = 1./255, validation_split=0.2)
+#
+# train_generator = image_generator.flow_from_directory(
+#         TRAINING_DIR,
+#         target_size=(100,100),
+#         class_mode='categorical',
+#         batch_size=32
+# )
+# label_map = (train_generator.class_indices)
+#
+# validation_generator = image_generator.flow_from_directory(
+#         TRAINING_DIR,
+#         target_size=(100,100),
+#         class_mode='categorical',
+#   batch_size=32
+# )
+# def md():
+#     import tensorflow as tf
+#
+#     model = tf.keras.models.Sequential([
+#         # Note the input shape is the desired size of the image 150x150 with 3 bytes color
+#         tf.keras.layers.Conv2D(64, (3,3), activation='relu', input_shape=(100, 100, 3)),
+#         tf.keras.layers.MaxPooling2D(2,2),
+#         tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
+#         tf.keras.layers.MaxPooling2D(2,2), 
+#         # tf.keras.layers.Conv2D(128, (3,3), activation='relu'), 
+#         # tf.keras.layers.MaxPooling2D(2,2),
+#         # tf.keras.layers.Conv2D(128, (3,3), activation='relu'), 
+#         # tf.keras.layers.MaxPooling2D(2,2),
+#         # Flatten the results to feed into a DNN
+#         tf.keras.layers.Flatten(), 
+#         # 512 neuron hidden layer
+#         tf.keras.layers.Dense(514, activation='relu'), 
+#         tf.keras.layers.Dense(214, activation='relu'), 
+#         # Only 1 output neuron. It will contain a value from 0-1 where 0 for 1 class ('cats') and 1 for the other ('dogs')
+#         tf.keras.layers.Dense(29, activation='softmax')  
+#     ])
+#
+#     model.summary()
+#
+#
+#     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+#
+#     history = model.fit(train_generator,
+#                                   validation_data=validation_generator,
+#                                   steps_per_epoch=1700,
+#                                   epochs=5,
+#                               validation_steps=50,
+#                               verbose=1)
+#
+#     model.save("mymodel2")
+#
+# md()
 
 model = keras.models.load_model("mymodel2")
 
@@ -118,8 +118,9 @@ while True:
     classes = model.predict(rgb_tensor, steps=1)
     # print(classes)
     # print(classes[0])
-    print(np.argmax(classes[0]))
-    print(get_key(np.argmax(classes[0])))
+    # print(np.argmax(classes[0]))
+    print(chr(np.argmax(classes[0])+97))
+    # print(get_key(np.argmax(classes[0])))
 
 
 stream.release()
