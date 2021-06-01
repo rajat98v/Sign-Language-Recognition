@@ -6,5 +6,8 @@
 3. numpy
 4. keras_preprocessing
 
+## Pretrained Model
+https://drive.google.com/file/d/1TebFfWZ3P4HSiax0yIobnsQdCswOWRs2/view?usp=sharing
+
 ## To run program
 `python handrecog2.py`
